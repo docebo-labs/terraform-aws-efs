@@ -17,6 +17,15 @@ resource "aws_efs_file_system" "this" {
   }
 }
 
+resource "aws_efs_mount_target" "this" {
+  for_each = toset(var.subnets)
+
+  file_system_id = aws_efs_file_system.this.id
+  subnet_id      = each.value
+
+  security_groups = var.security_groups
+}
+
 resource "aws_efs_access_point" "this" {
   for_each       = var.access_points
   file_system_id = aws_efs_file_system.this.id

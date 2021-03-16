@@ -27,6 +27,8 @@ A simple EFS module to create a file system and some entry points.
 | kms\_key\_id | The KMS Key ID that will be used to encrypt the file system. Encryption will be turned on automatically | `string` | `""` | no |
 | performance\_mode | The file system performance mode | `string` | `"generalPurpose"` | no |
 | provisioned\_throughput\_in\_mibps | The throughput when using 'throughput\_mode == "provisioned"' | `number` | `0` | no |
+| security\_groups | The security groups used in the ALB and the ECS service | `list(string)` | n/a | yes |
+| subnets | The list of subnets where the services will be deployed | `list(string)` | n/a | yes |
 | throughput\_mode | Throughput mode for the file system. When using provisioned, specify 'provisioned\_throughput\_in\_mibps' | `string` | `"bursting"` | no |
 | transition\_to\_ia | The period of time that a file is not accessed, after which it transitions to the IA storage class | `string` | `""` | no |
 

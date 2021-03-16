@@ -66,3 +66,23 @@ variable "access_points_defaults" {
   description = "The default values for the access points"
   default     = {}
 }
+
+variable "subnets" {
+  type        = list(string)
+  description = "The list of subnets where the services will be deployed"
+
+  validation {
+    condition     = alltrue([for sg in var.subnets : can(regex("^subnet-", sg))])
+    error_message = "All subnets must be valid."
+  }
+}
+
+variable "security_groups" {
+  type        = list(string)
+  description = "The security groups used in the ALB and the ECS service"
+
+  validation {
+    condition     = alltrue([for sg in var.security_groups : can(regex("^sg-", sg))])
+    error_message = "All security groups must be valid."
+  }
+}
