@@ -99,7 +99,7 @@ variable "vpc_id" {
   default     = ""
 
   validation {
-    condition     = can(regex("^vpc-", var.vpc_id))
+    condition     = var.vpc_id == "" || can(regex("^vpc-", var.vpc_id))
     error_message = "Wrong value for variable vpc_id."
   }
 }
