@@ -48,3 +48,19 @@ resource "aws_efs_access_point" "this" {
     Name = each.key
   }
 }
+
+resource "aws_vpc_endpoint" "this" {
+  count = var.enable_vpc_endpoint ? 1 : 0
+
+  service_name = "com.amazonaws.${var.aws_region}.elasticfilesystem"
+  vpc_id       = var.vpc_id
+
+  vpc_endpoint_type   = "Interface"
+  security_group_ids  = var.security_groups
+  subnet_ids          = var.subnets
+  private_dns_enabled = true
+
+  tags = {
+    Name = var.file_system_name
+  }
+}

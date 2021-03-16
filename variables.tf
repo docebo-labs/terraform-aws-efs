@@ -86,3 +86,27 @@ variable "security_groups" {
     error_message = "All security groups must be valid."
   }
 }
+
+variable "enable_vpc_endpoint" {
+  type        = bool
+  default     = false
+  description = "Whether to enable the VPC endpoint"
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "The VPC identifier. Required when `enable_vpc_endpoint == true`"
+  default     = ""
+
+  validation {
+    condition     = can(regex("^vpc-", var.vpc_id))
+    error_message = "Wrong value for variable vpc_id."
+  }
+}
+
+variable "aws_region" {
+  type        = string
+  default     = ""
+  description = "The AWS region where the module is being applied. Required when `enable_vpc_endpoint == true`"
+}
+
