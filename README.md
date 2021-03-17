@@ -39,7 +39,7 @@ A simple EFS module to create a file system and some entry points.
 
 | Name | Description |
 |------|-------------|
-| access\_points | n/a |
-| file\_system\_id | n/a |
+| access\_points | The access point list |
+| file\_system\_id | The file system ID |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
