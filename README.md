@@ -20,8 +20,8 @@ A simple EFS module to create a file system and some entry points.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| access\_points | The list of access points | `map(any)` | `{}` | no |
-| access\_points\_defaults | The default values for the access points | `map(any)` | `{}` | no |
+| access\_points | The list of access points | `map(map(map(string)))` | `{}` | no |
+| access\_points\_defaults | The default values for the access points | `map(map(string))` | `{}` | no |
 | aws\_region | The AWS region where the module is being applied. Required when `enable_vpc_endpoint == true` | `string` | `""` | no |
 | enable\_vpc\_endpoint | Whether to enable the VPC endpoint | `bool` | `false` | no |
 | encrypted | Whether the EFS File System should be encrypted | `bool` | `false` | no |

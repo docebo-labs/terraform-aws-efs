@@ -26,21 +26,15 @@ resource "aws_efs_mount_target" "this" {
   security_groups = var.security_groups
 }
 
-locals {
-  default_uid        = lookup(var.access_points_defaults, "user_uid", "")
-  default_gid        = lookup(var.access_points_defaults, "user_gid", "")
-  default_permission = lookup(var.access_points_defaults, "user_gid", "")
-}
-
 resource "aws_efs_access_point" "this" {
   for_each       = var.access_points
   file_system_id = aws_efs_file_system.this.id
 
   dynamic "posix_user" {
-    for_each = "" != lookup(each.value, "user_gid", local.default_gid) || "" != lookup(each.value, "user_uid", local.default_uid) ? [each.value] : []
+    for_each = null != lookup(each.value, "posix_user", lookup(var.access_points_defaults, "posix_user", null)) ? [1] : []
     content {
-      gid = lookup(posix_user, "user_gid", local.default_gid)
-      uid = lookup(posix_user, "user_uid", local.default_uid)
+      gid = lookup(lookup(each.value, "posix_user", lookup(var.access_points_defaults, "posix_user")), "gid")
+      uid = lookup(lookup(each.value, "posix_user", lookup(var.access_points_defaults, "posix_user")), "uid")
     }
   }
 
@@ -48,12 +42,12 @@ resource "aws_efs_access_point" "this" {
     path = "/${each.key}"
 
     dynamic "creation_info" {
-      for_each = "" != lookup(each.value, "user_gid", local.default_gid) || "" != lookup(each.value, "user_uid", local.default_uid) || "" != lookup(each.value, "permission", local.default_permission) ? [each.value] : []
+      for_each = null != lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info", null)) ? [1] : []
 
       content {
-        owner_gid   = lookup(creation_info, "user_gid", local.default_gid)
-        owner_uid   = lookup(creation_info, "user_uid", local.default_uid)
-        permissions = lookup(creation_info, "permission", local.default_permission)
+        owner_gid   = lookup(lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info")), "owner_gid")
+        owner_uid   = lookup(lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info")), "owner_uid")
+        permissions = lookup(lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info")), "permissions")
       }
     }
   }
