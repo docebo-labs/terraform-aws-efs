@@ -56,13 +56,13 @@ variable "transition_to_ia" {
 }
 
 variable "access_points" {
-  type        = map(any)
+  type        = map(map(map(string)))
   description = "The list of access points"
   default     = {}
 }
 
 variable "access_points_defaults" {
-  type        = map(any)
+  type        = map(map(string))
   description = "The default values for the access points"
   default     = {}
 }
