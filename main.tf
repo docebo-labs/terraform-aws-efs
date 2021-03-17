@@ -26,21 +26,35 @@ resource "aws_efs_mount_target" "this" {
   security_groups = var.security_groups
 }
 
+locals {
+  default_uid        = lookup(var.access_points_defaults, "user_uid", "")
+  default_gid        = lookup(var.access_points_defaults, "user_gid", "")
+  default_permission = lookup(var.access_points_defaults, "user_gid", "")
+}
+
 resource "aws_efs_access_point" "this" {
   for_each       = var.access_points
   file_system_id = aws_efs_file_system.this.id
 
-  posix_user {
-    gid = lookup(each.value, "user_gid", lookup(var.access_points_defaults, "user_gid"))
-    uid = lookup(each.value, "user_uid", lookup(var.access_points_defaults, "user_uid"))
+  dynamic "posix_user" {
+    for_each = "" != lookup(each.value, "user_gid", local.default_gid) || "" != lookup(each.value, "user_uid", local.default_uid) ? [each.value] : []
+    content {
+      gid = lookup(posix_user, "user_gid", local.default_gid)
+      uid = lookup(posix_user, "user_uid", local.default_uid)
+    }
   }
 
   root_directory {
     path = "/${each.key}"
-    creation_info {
-      owner_gid   = lookup(each.value, "user_gid", lookup(var.access_points_defaults, "user_gid"))
-      owner_uid   = lookup(each.value, "user_uid", lookup(var.access_points_defaults, "user_uid"))
-      permissions = lookup(each.value, "permission", lookup(var.access_points_defaults, "permission"))
+
+    dynamic "creation_info" {
+      for_each = "" != lookup(each.value, "user_gid", local.default_gid) || "" != lookup(each.value, "user_uid", local.default_uid) || "" != lookup(each.value, "permission", local.default_permission) ? [each.value] : []
+
+      content {
+        owner_gid   = lookup(creation_info, "user_gid", local.default_gid)
+        owner_uid   = lookup(creation_info, "user_uid", local.default_uid)
+        permissions = lookup(creation_info, "permission", local.default_permission)
+      }
     }
   }
 
