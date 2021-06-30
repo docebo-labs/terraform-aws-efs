@@ -7,7 +7,7 @@ A simple EFS module to create a file system and some entry points.
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.14 |
+| terraform | ~> 1.0 |
 | aws | ~> 3.31 |
 
 ## Providers
@@ -15,6 +15,19 @@ A simple EFS module to create a file system and some entry points.
 | Name | Version |
 |------|---------|
 | aws | ~> 3.31 |
+
+## Modules
+
+No Modules.
+
+## Resources
+
+| Name |
+|------|
+| [aws_efs_access_point](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/efs_access_point) |
+| [aws_efs_file_system](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/efs_file_system) |
+| [aws_efs_mount_target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/efs_mount_target) |
+| [aws_vpc_endpoint](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) |
 
 ## Inputs
 
@@ -41,5 +54,4 @@ A simple EFS module to create a file system and some entry points.
 |------|-------------|
 | access\_points | The access point list |
 | file\_system\_id | The file system ID |
-
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
