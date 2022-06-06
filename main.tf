@@ -33,8 +33,8 @@ resource "aws_efs_access_point" "this" {
   dynamic "posix_user" {
     for_each = null != lookup(each.value, "posix_user", lookup(var.access_points_defaults, "posix_user", null)) ? [1] : []
     content {
-      gid = lookup(lookup(each.value, "posix_user", lookup(var.access_points_defaults, "posix_user")), "gid")
-      uid = lookup(lookup(each.value, "posix_user", lookup(var.access_points_defaults, "posix_user")), "uid")
+      gid = lookup(lookup(each.value, "posix_user", lookup(var.access_points_defaults, "posix_user", null)), "gid")
+      uid = lookup(lookup(each.value, "posix_user", lookup(var.access_points_defaults, "posix_user", null)), "uid")
     }
   }
 
@@ -45,9 +45,9 @@ resource "aws_efs_access_point" "this" {
       for_each = null != lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info", null)) ? [1] : []
 
       content {
-        owner_gid   = lookup(lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info")), "owner_gid")
-        owner_uid   = lookup(lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info")), "owner_uid")
-        permissions = lookup(lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info")), "permissions")
+        owner_gid   = lookup(lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info", null)), "owner_gid")
+        owner_uid   = lookup(lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info", null)), "owner_uid")
+        permissions = lookup(lookup(each.value, "creation_info", lookup(var.access_points_defaults, "creation_info", null)), "permissions")
       }
     }
   }
