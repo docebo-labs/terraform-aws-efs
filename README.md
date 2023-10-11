@@ -7,14 +7,14 @@ A simple EFS module to create a file system and some entry points.
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 1.0 |
-| aws | ~> 3.31 |
+| terraform | => 1.3 |
+| aws | >= 4.54 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | ~> 3.31 |
+| aws | >= 4.54 |
 
 ## Modules
 
